@@ -160,7 +160,7 @@ async function syncWithServer() {
             showSyncStatus(`Sync completed. ${conflicts.length} conflicts resolved.`, 'success', 5000);
             showConflictNotification(conflicts);
         } else {
-            showSyncStatus('Sync completed successfully.', 'success', 3000);
+            showSyncStatus('Quotes synced with server!.', 'success', 3000);
         }
         
         // Update UI
