@@ -264,7 +264,7 @@ function viewAllQuotes() {
 }
 
 // Enhanced addQuote function to sync with server
-async function addQuoteWithSync(text, category) {
+async function syncQuotes(text, category) {
     const newQuote = { text, category, source: 'local', timestamp: Date.now() };
     
     // Add locally first
