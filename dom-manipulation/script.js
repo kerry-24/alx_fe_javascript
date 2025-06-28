@@ -8,6 +8,26 @@ let quotes = [
     { text: "In the end, we will remember not the words of our enemies, but the silence of our friends.", category: "friendship" },
     { text: "Be yourself; everyone else is already taken.", category: "life" }
 ];
+// implement local storage
+function saveQuotes () {
+  localStorage.setItem('quotes', JSON.stringify(quotes));
+}
+
+function loadQuotes () {
+  const savedQuotes = localStorage.getItem('quotes');
+  if (savedQuotes) {
+    quotes = JSON.parse(savedQuotes)
+  }
+}
+//implement session storage
+function saveLastViewedQuote(quote) {
+    sessionStorage.setItem('lastViewedQuote', JSON.stringify(quote));
+}
+
+function getLastViewedQuote() {
+    const lastQuote = sessionStorage.getItem('lastViewedQuote');
+    return lastQuote ? JSON.parse(lastQuote) : null;
+}
 
 // Get DOM elements
 const quoteDisplay = document.getElementById('quoteDisplay');
@@ -24,6 +44,7 @@ function showRandomQuote() {
     // Get a random quote from the array
     const randomIndex = Math.floor(Math.random() * quotes.length);
     const selectedQuote = quotes[randomIndex];
+    saveLastViewedQuote(selectedQuote);
     
     // Create and manipulate DOM elements to display the quote
     quoteDisplay.innerHTML = '';
@@ -124,6 +145,7 @@ function addQuote() {
     if (newText && newCategory) {
         // Add new quote to the array
         quotes.push({ text: newText, category: newCategory });
+        saveQuotes();
         
         // Clear the input fields
         document.getElementById('newQuoteText').value = '';
@@ -138,4 +160,38 @@ function addQuote() {
         alert('Please fill in both the quote text and category.');
     }
 }
-document.addEventListener('DOMContentLoaded', showRandomQuote);
+
+//Export/import Function
+function exportToJson() {
+    const dataStr = JSON.stringify(quotes, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    
+    const downloadLink = document.createElement('a');
+    downloadLink.href = url;
+    downloadLink.download = 'quotes.json';
+    downloadLink.click();
+    
+    URL.revokeObjectURL(url);
+}
+
+function importFromJsonFile(event) {
+    const fileReader = new FileReader();
+    fileReader.onload = function(event) {
+        try {
+            const importedQuotes = JSON.parse(event.target.result);
+            quotes.push(...importedQuotes);
+            saveQuotes();
+            alert('Quotes imported successfully!');
+            showRandomQuote();
+        } catch (error) {
+            alert('Error importing file. Please ensure it\'s a valid JSON file.');
+        }
+    };
+    fileReader.readAsText(event.target.files[0]);
+}
+
+document.addEventListener('DOMContentLoaded', function (){
+  loadQuotes();
+  showRandomQuote();
+});
