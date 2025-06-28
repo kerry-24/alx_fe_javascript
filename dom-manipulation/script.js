@@ -14,7 +14,7 @@ let filteredQuotes = [...quotes];
 let currentCategory = 'all';
 
 //server simulation variables
-const SERVER_BASE_URL = 'https://jsonplaceholder.typicode.com';
+const SERVER_BASE_URL = "https://jsonplaceholder.typicode.com/posts";
 let syncInterval;
 let lastSyncTime = 0;
 
