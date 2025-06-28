@@ -13,6 +13,20 @@
     <!-- Dynamically populated categories -->
     </select>
     </div>
+
+    <div id="syncStatus" style="margin: 10px 0; padding: 10px; border-radius: 4px; display: none;">
+    <span id="syncMessage"></span>
+    <button id="manualSync" onclick="syncWithServer()" style="margin-left: 10px;">Manual Sync</button>
+    </div>
+
+    <div id="conflictNotification" style="display: none; margin: 10px 0; padding: 15px; background-color: #fff3cd; border: 1px solid #ffeaa7; border-radius: 4px;">
+    <h4>Data Sync Conflicts Resolved</h4>
+    
+    <div id="conflictDetails"></div>
+    <button onclick="hideConflictNotification()">Dismiss</button>
+    <button onclick="viewAllQuotes()">View All Quotes</button>
+    </div>
+
     <div id="quoteDisplay"></div>
     <button id="newQuote">Show New Quote</button>
     </div>
